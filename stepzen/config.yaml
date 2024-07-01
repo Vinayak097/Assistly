@@ -1,0 +1,4 @@
+configurationset:
+  - configuration:
+      name: postgresql_config
+      uri: postgresql://ep-late-hat-a5ythxna.us-east-2.aws.neon.tech/assistly?user=tododb_owner&password=mSivs8n5rodk

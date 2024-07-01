@@ -12,8 +12,11 @@ export default function AdminLayout({
       <div className="flex flex-col  lg:flex-row bg-gray-100 ">
         {/* sidebar */}
         <Sidebar></Sidebar>
-        <div className="flex  justify-center lg:justify-start border items-start max-w-5xl mx-auto w-full">
+        <div className="flex  justify-center lg:justify-start  items-start max-w-5xl mx-auto w-full">
+         
           {children}
+          
+          
           
         </div>
       

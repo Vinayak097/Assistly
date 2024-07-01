@@ -1,0 +1,85 @@
+type Chatbots {
+  clerk_user_id: String!
+  created_at: DateTime!
+  id: Int!
+  name: String!
+}
+
+"""
+The following queries are just a set of examples of how to access your schema.
+Feel free to modify them or aggregate more.
+"""
+type Query {
+  " Queries for type 'Chatbots' "
+  chatbots(id: Int!): Chatbots
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "chatbots"
+      configuration: "postgresql_config"
+    )
+  chatbotsList: [Chatbots]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "chatbots"
+      configuration: "postgresql_config"
+    )
+  chatbotsPaginatedList(first: Int, after: Int): [Chatbots]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "clerk_user_id", "created_at", "id", "name" FROM "chatbots" ORDER BY "id" LIMIT $1 OFFSET $2
+      """
+      configuration: "postgresql_config"
+    )
+}
+
+"""
+The following mutations are just a set of examples of how to access your schema.
+Feel free to modify them or aggregate more.
+"""
+type Mutation {
+  " Mutations for type 'Chatbots' "
+  deleteChatbots(id: Int!): Chatbots
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "chatbots"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+  insertChatbots(
+    created_at: DateTime!
+    name: String!
+    clerk_user_id: String!
+  ): Chatbots
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "chatbots"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  updateChatbots(
+    id: Int!
+    clerk_user_id: String
+    created_at: DateTime
+    name: String
+  ): Chatbots
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      UPDATE "chatbots" SET
+        "clerk_user_id" = COALESCE($2, "clerk_user_id"),
+        "created_at" = COALESCE($3, "created_at"),
+        "name" = COALESCE($4, "name")
+      WHERE
+        "id" = $1
+      RETURNING *
+      """
+      configuration: "postgresql_config"
+    )
+}
